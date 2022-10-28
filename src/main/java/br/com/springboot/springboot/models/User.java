@@ -1,4 +1,4 @@
-package br.com.springboot.springboot.models;
+package br.com.springboot.springboot.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "TB_USERS")
 public class User {
     
     @Id
@@ -26,5 +26,4 @@ public class User {
     private String name;
     private String username;
     private String email;
-    private String address; 
 }
