@@ -1,4 +1,4 @@
-package br.com.springboot.springboot.controllers;
+package br.com.springboot.springboot.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.springboot.springboot.models.User;
+import br.com.springboot.springboot.model.User;
 import br.com.springboot.springboot.repository.UserRepository;
 
 @RestController
-@RequestMapping(path = "/users")
+@RequestMapping("/users")
 public class UserController {
 
     private List<User> users = new ArrayList<>();
 
+    // Injection
     @Autowired
     private UserRepository userRepository;
 
@@ -35,25 +36,26 @@ public class UserController {
     }
 
     @GetMapping("/list/{id}")
-    public User findUserById(@PathVariable("id") Long id) {
-        System.out.printf("Buscando o id " + id);
+    public User user(@PathVariable("id") Long id) {
+        System.out.println("O id buscado é: " + id);
 
-        Optional<User> findUser = this.userRepository.findById(id);
+        Optional<User> findUser = this.userRepository.findById(id); /*users.stream()
+                .filter(user -> user.getId() == id)
+                .findFirst();*/
 
         if (findUser.isPresent()) {
             return findUser.get();
         }
-
         return null;
     }
 
     @GetMapping("/list-more-than/{id}")
-    public List<User> listUsersMoreThan(@PathVariable("id") Long id) {
-        return this.userRepository.findAllMoreThan(id);
+    public List<User> listMoreThan(@PathVariable("id") Long id) {
+        return this.userRepository.findByIdGreaterThan(id);
     }
 
     @GetMapping("/find-by-name/{name}")
-    public List<User> findUserByName(@PathVariable("name") String name) {
+    public List<User> findByName(@PathVariable("name") String name) {
         return this.userRepository.findByNameIgnoreCase(name);
     }
 }
